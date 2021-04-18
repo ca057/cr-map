@@ -33,8 +33,8 @@ export default function Map({ width, height, initialViewState }: Props) {
   };
   const [countyOfInterest, setCountyOfInterest] = useState<string | null>(null);
   const [zoom, setZoom] = useState(mergedInitialViewState.zoom);
-  const kreiseLayer = new GeoJsonLayer({
-    id: "index-layer",
+  const countyLayer = new GeoJsonLayer({
+    id: "county-layer",
     data: "/landkreise-bawu.geojson",
     loader: JSONLoader,
     pickable: true,
@@ -44,28 +44,29 @@ export default function Map({ width, height, initialViewState }: Props) {
     lineWidthMinPixels: 2,
     getFillColor: [160, 160, 180, zoom < 10 ? 100 : 0],
     getLineWidth: 1,
-    visible: true,
+    // visible: false,
+    visible: zoom < 10,
     onHover: (info) => {
       setCountyOfInterest(extractCountyName(info));
     },
   });
 
   const indexLayer = new MVTLayer({
-    id: "county-layer",
+    id: "index-layer",
     data: `${process.env.tileServerBaseUrl}/maps/cargorocket/{z}/{x}/{y}.pbf`,
     minZoom: 10,
     maxZoom: 20,
     getLineColor: [192, 192, 192],
     getFillColor: [140, 170, 180],
     pickable: true,
-    getLineWidth: 5,
+    getLineWidth: 10,
     lineWidthMinPixels: 1,
     onClick: (info, event) => {
       console.log("click", info.object);
     },
   });
 
-  const layers = [indexLayer, kreiseLayer];
+  const layers = [indexLayer, countyLayer];
 
   return (
     <>
@@ -77,6 +78,7 @@ export default function Map({ width, height, initialViewState }: Props) {
         height={height}
         onViewStateChange={({ viewState }) => {
           setZoom(Math.round(viewState.zoom));
+          return viewState;
         }}
       >
         <StaticMap mapboxApiAccessToken={process.env.mapboxAccessToken} />
