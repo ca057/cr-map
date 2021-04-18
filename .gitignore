@@ -34,5 +34,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-public/*.geojson
 tegola/*.gpkg

@@ -1,7 +1,6 @@
 import Head from "next/head";
-import DeckGL from "@deck.gl/react";
-import { MVTLayer } from "@deck.gl/geo-layers";
-import { StaticMap } from "react-map-gl";
+
+import Map from "./components/map";
 
 import styles from "../styles/Home.module.css";
 
@@ -15,29 +14,6 @@ const INITIAL_VIEW_STATE = {
 };
 
 export default function Home() {
-  const layer = new MVTLayer({
-    data: `${process.env.tileServerBaseUrl}/maps/cargorocket/{z}/{x}/{y}.pbf`,
-
-    minZoom: 10,
-    maxZoom: 20,
-    getLineColor: [192, 192, 192],
-    getFillColor: [140, 170, 180],
-
-    getLineWidth: (f) => {
-      switch (f.properties.class) {
-        case "street":
-          return 6;
-        case "motorway":
-          return 10;
-        default:
-          return 10;
-      }
-    },
-    lineWidthMinPixels: 1,
-  });
-
-  const layers = [layer];
-
   return (
     <div className={styles.container}>
       <Head>
@@ -46,14 +22,15 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <DeckGL
+        <Map
           initialViewState={INITIAL_VIEW_STATE}
-          controller={true}
-          layers={layers}
-        >
-          <StaticMap mapboxApiAccessToken={process.env.mapboxAccessToken} />
-        </DeckGL>
+          width="100%"
+          height="calc(100vh - 50px)"
+        />
       </main>
+      <footer className={styles.footer}>
+        <p>Cargorocket 2021</p>
+      </footer>
     </div>
   );
 }

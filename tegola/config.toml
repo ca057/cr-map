@@ -14,6 +14,14 @@ filepath = "/opt/tegola_config/${TILE_SERVER_GEO_PACKAGE_FILE}"
   [[providers.layers]]
   name = "cargo_index"
   tablename = "streets_bawu"
+  # fields = ["osm_id","name","highway","cbindex_cycleways","cbindex_street_quality","cbindex_surface","cycleway_combined","cycleway_width_combined","bicycle_road","maxspeed","segregated","surface_combined","smoothness_combined"]
+  fields = ["osm_id","name","highway","cbindex_street_quality_int"]
+
+  # [[providers.layers]]
+  # name = "kreise"
+  # tablename = "landkreise"
+  # # fields = ["osm_id","name","highway","cbindex_cycleways","cbindex_street_quality","cbindex_surface","cycleway_combined","cycleway_width_combined","bicycle_road","maxspeed","segregated","surface_combined","smoothness_combined"]
+  # fields = ["kreis_id","kreis_name","test_index"]
 
 [[maps]]
 name = "cargorocket"
@@ -23,4 +31,9 @@ center = [9.17702, 48.78232, 11.0]
   provider_layer = "data.cargo_index"
   min_zoom = 10
   max_zoom = 20
-  id_fieldname="fid"
+
+  # [[maps.layers]]
+  # provider_layer = "data.kreise"
+  # min_zoom = 1
+  # max_zoom = 10
+
