@@ -1,8 +1,7 @@
 import Head from "next/head";
 import DeckGL from "@deck.gl/react";
-import { LineLayer, GeoJsonLayer } from "@deck.gl/layers";
+import { MVTLayer } from "@deck.gl/geo-layers";
 import { StaticMap } from "react-map-gl";
-import { JSONLoader } from "@loaders.gl/json";
 
 import styles from "../styles/Home.module.css";
 
@@ -16,21 +15,25 @@ const INITIAL_VIEW_STATE = {
 };
 
 export default function Home() {
-  const layer = new GeoJsonLayer({
-    id: "geojson-layer",
-    data: "http://localhost:3000/streets_stuttgart.geojson",
-    loader: JSONLoader,
-    pickable: true,
-    stroked: false,
-    filled: true,
-    extruded: true,
-    lineWidthScale: 20,
-    lineWidthMinPixels: 2,
-    getFillColor: [160, 160, 180, 200],
-    // getLineColor: (d) => colorToRGBArray(d.properties.cbindex_street_quality),
-    getRadius: 100,
-    getLineWidth: 1,
-    getElevation: 30,
+  const layer = new MVTLayer({
+    data: `${process.env.tileServerBaseUrl}/maps/cargorocket/{z}/{x}/{y}.pbf`,
+
+    minZoom: 10,
+    maxZoom: 20,
+    getLineColor: [192, 192, 192],
+    getFillColor: [140, 170, 180],
+
+    getLineWidth: (f) => {
+      switch (f.properties.class) {
+        case "street":
+          return 6;
+        case "motorway":
+          return 10;
+        default:
+          return 10;
+      }
+    },
+    lineWidthMinPixels: 1,
   });
 
   const layers = [layer];
@@ -38,7 +41,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Cargorocket Map</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

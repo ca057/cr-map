@@ -1,0 +1,26 @@
+[webserver]
+port = ":8080"
+
+  [webserver.headers]
+  # redefine default cors origin
+  Access-Control-Allow-Origin = "*"
+
+# register data providers
+[[providers]]
+name = "data"
+type = "gpkg"
+filepath = "/opt/tegola_config/${TILE_SERVER_GEO_PACKAGE_FILE}"
+
+  [[providers.layers]]
+  name = "cargo_index"
+  tablename = "streets_bawu"
+
+[[maps]]
+name = "cargorocket"
+center = [9.17702, 48.78232, 11.0]
+
+  [[maps.layers]]
+  provider_layer = "data.cargo_index"
+  min_zoom = 10
+  max_zoom = 20
+  id_fieldname="fid"

@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@deck.gl/layers": "^8.4.13",
+    "@deck.gl/geo-layers": "^8.4.13",
     "deck.gl": "^8.4.13",
     "next": "10.1.3",
     "react": "17.0.2",
@@ -16,8 +16,6 @@
     "react-map-gl": "^6.1.12"
   },
   "devDependencies": {
-    "@loaders.gl/core": "^2.3.13",
-    "@loaders.gl/json": "^2.3.13",
     "@types/react": "^17.0.3",
     "dotenv": "^8.2.0",
     "typescript": "^4.2.4"
