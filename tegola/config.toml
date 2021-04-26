@@ -5,6 +5,10 @@ port = ":8080"
   # redefine default cors origin
   Access-Control-Allow-Origin = "*"
 
+[cache]
+type="file"             # cache type
+basepath="/tmp/tegolacache"  # cache specific config
+
 # register data providers
 [[providers]]
 name = "data"

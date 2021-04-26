@@ -1,0 +1,12 @@
+services:
+  tileserver:
+    image: gospatial/tegola
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./tegola:/opt/tegola_config
+      - tileservercache:/tmp/tegolacache
+    env_file: ".env"
+    command: ["serve", "--config", "/opt/tegola_config/config.toml"]
+volumes:
+  tileservercache: {}
